@@ -1,0 +1,74 @@
+<resources>
+    <string name="app_name">Musicool Promo Official</string>
+    <string name="title">Title</string>
+    <string name="text_welcome">Selamat Datang</string>
+    <string name="masuk"><u>Masuk</u></string>
+    <string name="atau">atau</string>
+    <string name="daftar"><u>Daftar</u></string>
+    <string name="error"><u>Error</u></string>
+    <string name="sebagai_agen">sebagai Agen/Outlet/Teknisi</string>
+    <string name="melalui_login_atau_registrasi_saya_setuju_dengan">Melalui login atau registrasi, saya setuju dengan</string>
+    <string name="syarat_dan_ketentuan">Syarat dan Ketentuan</string>
+    <string name="serta">serta</string>
+    <string name="kebijakan_privasi">Kebijakan Privasi</string>
+    <string name="term_and_conditions">Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
+The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.</string>
+    <string name="continue_">Lanjutkan</string>
+    <string name="masukkan_email_yang_terdaftar">Masukkan email yang terdaftar.</string>
+    <string name="email">Email</string>
+    <string name="choose_province_first">Pilih provinsi terlebih dahulu</string>
+    <string name="choose_city_first">Pilih kota terlebih dahulu</string>
+    <string name="choose_province">Pilih Provinsi</string>
+    <string name="choose_city">Pilih Kota/Kabupaten</string>
+    <string name="choose_district">Pilih Kecamatan</string>
+    <string name="wait_data">Mengambil data</string>
+
+    <string name="empty_name">Nama tidak boleh kosong</string>
+    <string name="empty_address">Alamat tidak boleh kosong</string>
+    <string name="empty_pk">Pk tidak boleh kosong</string>
+    <string name="empty_service">Layanan tidak boileh kosong</string>
+    <string name="empty_province">Provinsi tidak boleh kosong</string>
+    <string name="empty_city">Kota tidak boleh kosong</string>
+    <string name="empty_district">Kecamatan tidak boleh kosong</string>
+    <string name="empty_email">Email tidak boleh koosng</string>
+    <string name="order_success">Pesanan sukses</string>
+    <string name="empty_ac">Mengambil data</string>
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="first_tab">Artikel</string>
+    <string name="second_tab">Promo</string>
+    <string name="first_tab_points">Didapat</string>
+    <string name="second_tab_points">Dipakai</string>
+    <string name="first_tab_scan">Tabung</string>
+    <string name="second_tab_scan">Retrofit</string>
+
+    <string name="sample_text">Diproduksi sejak tahun 2006, MUSICOOL merupakan refrigeran hidrokarbon dengan kemurnian tinggi yang dapat diaplikasikan untuk menggantikan refrigeran sintetik tertentu pada mesin-mesin pendingin.</string>
+    <string name="point_1">Produk kami tidak merusak lapisan Ozon dan tidak menimbulkan efek rumah kaca / Pemanasan Global.</string>
+    <string name="point_2">Menghemat pemakaian listrik/bahan bakar hingga 30% dan memberikan efek pendinginan lebih baik.</string>
+    <string name="point_3">Memiliki berat jenis yang lebih ringan sehingga penggunaan refrigerant lebih hemat serta dapat meringankan kerja kompresor.</string>
+    <string name="point_4">Komponen Besar Tidak merusak mesin AC dan tidak memerlukan penggantian dan penambahan komponen.</string>
+
+
+    <string name="kenapa_pilih_musicool">Kenapa Pilih Musicool?</string>
+    <string name="profile_bottom_text">Communications and transaction history from Musicool will be sent to this verified email address</string>
+    <string name="log_out">LOG OUT</string>
+    <string name="history">Riwayat</string>
+    <string name="waktupesanan">Pilih Tanggal</string>
+    <string name="title_home">Beranda</string>
+    <string name="title_feed">Berita</string>
+    <string name="title_qr"> </string>
+    <string name="title_network">Jaringan</string>
+    <string name="title_profile">Profil</string>
+    <string name="terverifikasi">Belum Terdaftar</string>
+    <string name="ubah_kata_sandi"><u>Ubah kata sandi</u></string>
+    <string name="emailverif">Akun anda sedang diproses. Tim kami akan segera menghubungi anda.</string>
+    <string name="address_hint">Jl. Raya Pondok Petir RT 02/01 No. 8, Sawangan, Depok</string>
+    <string name="input_code">Masukkan Kode</string>
+    <string name="empty_receive">Belum ada poin didapat</string>
+    <string name="empty_usage">Belum ada hadiah</string>
+    <string name="empty_news">Belum ada berita</string>
+    <string name="empty_promo">Belum ada promo</string>
+    <string name="empty_network">Tidak ditemukan</string>
+</resources>

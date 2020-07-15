@@ -1,0 +1,42 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="otpViewStyle">@style/OtpWidget.OtpView</item>
+    </style>
+
+    <style name="AppThemeMaterial" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="otpViewStyle">@style/OtpWidget.OtpView</item>
+    </style>
+
+    <style name="TextAppearence.App.TextInputLayout" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/colorBlack</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:textColorHint">@color/colorDefault</item>
+        <item name="colorControlNormal">@color/colorDefault</item>
+        <item name="android:colorAccent">@color/colorDefault</item>
+        <item name="android:label">@color/colorPrimary</item>
+
+        //added attributes
+        <item name="colorControlActivated">@color/colorPrimary</item>
+        <item name="colorControlHighlight">@color/colorPrimary</item>
+    </style>
+
+
+    <style name="ThemeToolbar" parent="Theme.AppCompat.Light">
+
+        <!-- navigation icon color -->
+        <item name="colorControlNormal">@color/colorWhite</item>
+
+        <!-- color of the menu overflow icon -->
+        <item name="android:textColorSecondary">@color/colorWhite</item>
+    </style>
+</resources>

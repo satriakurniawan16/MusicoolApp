@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    tools:context=".view.fragment.NetworkFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/bar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.Toolbar
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_centerHorizontal="true"
+                android:background="@color/colorPrimary"
+                app:titleTextColor="@color/colorWhite">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Jaringan"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="20dp" />
+
+            </androidx.appcompat.widget.Toolbar>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Provinsi"
+                android:textColor="@color/colorBlack"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <com.weiwangcn.betterspinner.library.BetterSpinner
+                android:id="@+id/province_spinner"
+                android:layout_width="match_parent"
+                android:textSize="15sp"
+                android:layout_height="wrap_content"
+                android:hint="Pilih Provinsi" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Kota/Kabupaten "
+                android:textColor="@color/colorBlack"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <com.weiwangcn.betterspinner.library.BetterSpinner
+                android:id="@+id/city_spinner"
+                android:layout_width="match_parent"
+                android:textSize="15sp"
+                android:layout_height="wrap_content"
+                android:hint="Pilih Kota/Kabupaten" />
+
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/filter_search"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:textColor="@color/colorWhite"
+            android:background="@drawable/genuine_border"
+            android:layout_gravity="center"
+            android:text="Cari"
+            android:orientation="vertical"/>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_network"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            tools:listitem="@layout/list_item_network" />
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerInParent="true"/>
+
+            <LinearLayout
+                android:id="@+id/empty_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:layout_centerInParent="true">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_group_1317" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/empty_network"
+                    android:textAlignment="center" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+    </LinearLayout>
+
+
+</FrameLayout>

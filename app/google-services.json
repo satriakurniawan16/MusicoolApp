@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "330951166492",
+    "firebase_url": "https://musicoolapp-db86b.firebaseio.com",
+    "project_id": "musicoolapp-db86b",
+    "storage_bucket": "musicoolapp-db86b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:330951166492:android:88788f2155490dc66aadd9",
+        "android_client_info": {
+          "package_name": "com.pertamina.musicoolpromo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "330951166492-vl95h740nrcr7g2s2u9uqejcd3j5b4ma.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pertamina.musicoolpromo",
+            "certificate_hash": "695dc78b133f8413d25d02ff5be4ebe1a6be5fc8"
+          }
+        },
+        {
+          "client_id": "330951166492-gjn4506ei2okkr9r5nefmo5tkftqr4vr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCl5Z6BrXBUdOW_bbHa-DyVtfvb-oEcbAM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "330951166492-gjn4506ei2okkr9r5nefmo5tkftqr4vr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

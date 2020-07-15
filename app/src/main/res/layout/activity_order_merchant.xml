@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.activity.OrderMerchantActivity">
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/button">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:background="@color/colorGrey"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.25"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/market" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center|left"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/waktupesanan"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="date"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.25"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_bottom_arrow"
+                        android:tint="#5e5c5c" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="25dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Alamat"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Jl. Raya Pondok Petir RT 02/01 No. 8, Sawangan, Depok"
+                    android:textSize="15sp" />/
+
+                <com.weiwangcn.betterspinner.library.BetterSpinner
+                    android:id="@+id/province_spinner"
+                    android:layout_width="170dp"
+                    android:layout_height="wrap_content"
+                    android:hint="Provinsi"
+                    android:textSize="15sp" />
+
+                <com.weiwangcn.betterspinner.library.BetterSpinner
+                    android:id="@+id/city_spinner"
+                    android:layout_width="170dp"
+                    android:layout_height="wrap_content"
+                    android:hint="Kota/Kabupaten"
+                    android:textSize="15sp" />
+
+                <com.weiwangcn.betterspinner.library.BetterSpinner
+                    android:id="@+id/district_spinner"
+                    android:layout_width="170dp"
+                    android:layout_height="wrap_content"
+                    android:hint="Kecamatan"
+                    android:textSize="15sp" />
+
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="right|center"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:layout_width="30dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:hint="2"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Pk"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="15sp" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="5dp"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <Button
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:background="@drawable/ic_add" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="Jenis Layanan"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <com.weiwangcn.betterspinner.library.BetterSpinner
+                    android:id="@+id/choose_service"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Pilih layanan"
+                    android:textSize="15sp" />/
+
+                <com.weiwangcn.betterspinner.library.BetterSpinner
+                    android:id="@+id/choose_service2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Pilih layanan"
+                    android:textSize="15sp" />/
+
+                <com.weiwangcn.betterspinner.library.BetterSpinner
+                    android:id="@+id/choose_service3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Pilih layanan"
+                    android:textSize="15sp" />/
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:background="#d8d8d8"
+        android:text="LANJUTKAN" />
+
+</RelativeLayout>
