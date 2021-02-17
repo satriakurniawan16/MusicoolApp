@@ -23,6 +23,7 @@ import static com.pertamina.musicoolpromo.view.utilities.GlobalString.Preference
 import static com.pertamina.musicoolpromo.view.utilities.GlobalString.Preferences.PROVINCE;
 import static com.pertamina.musicoolpromo.view.utilities.GlobalString.Preferences.PROVINCE_ID;
 import static com.pertamina.musicoolpromo.view.utilities.GlobalString.Preferences.REG_TOKEN;
+import static com.pertamina.musicoolpromo.view.utilities.GlobalString.Preferences.RETROFIT_TYPE;
 import static com.pertamina.musicoolpromo.view.utilities.GlobalString.Preferences.ZIPCODE;
 
 public class SharePreferenceManager {
@@ -323,6 +324,20 @@ public class SharePreferenceManager {
 
     public String getKtp() {
         return pref.getString(KTP, null);
+    }
+
+    public void setRetrofitType(String retrofit) {
+        editor.putString(RETROFIT_TYPE, retrofit);
+        editor.commit();
+    }
+
+    public void removeRetrofitType(){
+        editor.remove(RETROFIT_TYPE);
+        editor.commit();
+    }
+
+    public String getRetrofitType() {
+        return pref.getString(RETROFIT_TYPE, null);
     }
 
 

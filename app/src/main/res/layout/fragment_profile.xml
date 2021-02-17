@@ -179,6 +179,7 @@
                 android:textSize="12dp"/>
 
             <TextView
+                android:id="@+id/textviewktp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="No.KTP"
@@ -320,7 +321,7 @@
                     android:layout_marginTop="50dp"
                     android:layout_centerInParent="true"
                     android:text="@string/log_out"
-                    android:background="@color/colorPrimary"
+                    android:background="@drawable/genuine_border"
                     android:textSize="16sp"
                     android:textColor="@color/colorWhite"
                     android:textStyle="bold"

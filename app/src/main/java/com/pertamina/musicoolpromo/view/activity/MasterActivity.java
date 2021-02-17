@@ -104,8 +104,8 @@ public class MasterActivity extends BaseActivity {
             Log.d("mamangcuy", "generateView: " + sharePreferenceManager.getAccountType() + ACCOUNT_TYPE_AGENT);
             whatsapp.setVisibility(View.VISIBLE);
             if(sharePreferenceManager.getAccountType().equals(ACCOUNT_TYPE_OUTLET) || sharePreferenceManager.getAccountType().equals(ACCOUNT_TYPE_AGENT)){
-                menu.getItem(3).setVisible(false);
-                imageView.setVisibility(View.GONE);
+//                menu.getItem(3).setVisible(false);
+//                imageView.setVisibility(View.GONE);
                 menu.getItem(2).setTitle("Scan");
                 linearLayout.setVisibility(View.GONE);
             }else {

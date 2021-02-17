@@ -4,16 +4,16 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/radius_backgroud_white"
     android:gravity="center">
 
-    <androidx.cardview.widget.CardView
+    <LinearLayout
         android:id="@+id/createSingleDealBut"
         android:layout_width="360dp"
+        android:orientation="vertical"
+        android:background="@color/colorWhite"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:elevation="3dp"
-        app:cardCornerRadius="10dp"
-        app:cardElevation="5dp">
+        android:layout_margin="10dp">
 
         <LinearLayout
             android:id="@+id/customersignIn"
@@ -49,9 +49,9 @@
                     android:background="#F7F7F7">
 
                     <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/imagenew1"/>
+                        android:layout_width="180dp"
+                        android:layout_height="140dp"
+                        android:src="@drawable/konsumen_img"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -117,6 +117,6 @@
 
 
 
-    </androidx.cardview.widget.CardView>
+    </LinearLayout>
 
 </LinearLayout>

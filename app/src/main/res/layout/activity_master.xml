@@ -10,7 +10,8 @@
         android:id="@+id/action_wa"
         android:layout_width="45dp"
         android:layout_height="45dp"
-        android:layout_margin="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="15dp"
         android:visibility="gone"
         android:background="@drawable/watsapp"
         app:layout_constraintBottom_toTopOf="@+id/nav_view"
@@ -93,7 +94,7 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:src="@drawable/ic_scan"
-                android:tint="#808080"/>
+                app:tint="#808080" />
         </LinearLayout>
 
 

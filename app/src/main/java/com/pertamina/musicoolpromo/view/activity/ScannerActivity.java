@@ -30,6 +30,7 @@ import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
 import com.budiyev.android.codescanner.DecodeCallback;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.zxing.Result;
 import com.karumi.dexter.Dexter;
@@ -236,6 +237,72 @@ public class ScannerActivity extends BaseActivity {
         });
     }
 
+    private void getProductBreezon(String code) {
+        setProductBreezon(code);
+        SharePreferenceManager sharePreferenceManager = new SharePreferenceManager(this);
+        ApiInterface service = ApiClient.getData().create(ApiInterface.class);
+        Call<JsonArray> call = service.getProductBreezon("Bearer " + sharePreferenceManager.getToken(), "application/json", code);
+        call.enqueue(new Callback<JsonArray>() {
+            @Override
+            public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
+                final JsonArray jsonArray = response.body();
+                final JsonObject jsonObject = jsonArray.get(0).getAsJsonObject();
+                Log.d("tesbreezon", "onResponse: " + jsonObject);
+                String codeResult = jsonObject.get("id").getAsString();
+                String lastPosition = "";
+                String lastScanned = "";
+                JsonElement el = jsonObject.get("last_position");
+                if(el != null || el.isJsonNull()){
+                    lastPosition = jsonObject.get("last_position").getAsString();
+                    lastScanned = jsonObject.get("last_scanned_by").getAsString();
+                }
+                JsonObject productResult = jsonObject.get("breezon_product").getAsJsonObject();
+                String name = productResult.get("name").getAsString();
+                pDialog.dismiss();
+                if (code.equals(codeResult)) {
+                    if (sharePreferenceManager.getAccountType().equals("DPT")) {
+                        Intent intent = new Intent(ScannerActivity.this, GenuineDepotActivity.class);
+                        intent.putExtra("id", codeResult);
+                        intent.putExtra("name", name);
+                        intent.putExtra("scanned_by", lastScanned);
+                        intent.putExtra("last_position", lastPosition);
+                        startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(ScannerActivity.this, GenuineProductActivity.class);
+                        intent.putExtra("id", codeResult);
+                        intent.putExtra("name", name);
+                        startActivity(intent);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonArray> call, Throwable t) {
+                Log.d("lol gagal", "onResponse: " + t);
+                pDialog.dismiss();
+            }
+        });
+    }
+
+    private void setProductBreezon(String code) {
+        SharePreferenceManager sharePreferenceManager = new SharePreferenceManager(this);
+        ApiInterface service = ApiClient.getData().create(ApiInterface.class);
+        Call<JsonObject> call = service.setProductBreezon("Bearer " + sharePreferenceManager.getToken(), "application/json", code);
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                pDialog.dismiss();
+
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.d("lol gagal", "onResponse: " + t);
+                pDialog.dismiss();
+            }
+        });
+    }
+
 
     private void displayLoader() {
         pDialog.setMessage("Tunggu sebentar");
@@ -277,6 +344,11 @@ public class ScannerActivity extends BaseActivity {
                     if (codeType.equals("retrofit")) {
                         Toast.makeText(ScannerActivity.this, "Fitur ini hanya bisa digunakan oleh teknisi dan outlet", Toast.LENGTH_SHORT).show();
                         mCodeScanner.startPreview();
+                    } else if (codeType.equals("breezon_retrofit")) {
+                        Toast.makeText(ScannerActivity.this, "Fitur ini hanya bisa digunakan oleh teknisi dan outley", Toast.LENGTH_SHORT).show();
+                        mCodeScanner.startPreview();
+                    } else if (codeType.equals("breezon_product")) {
+                        getProductBreezon(code);
                     } else {
                         setProduct(code);
                     }
@@ -419,7 +491,7 @@ public class ScannerActivity extends BaseActivity {
 
             @Override
             public void run() {
-                doubleBackToExitPressedOnce=false;
+                doubleBackToExitPressedOnce = false;
             }
         }, 2000);
     }

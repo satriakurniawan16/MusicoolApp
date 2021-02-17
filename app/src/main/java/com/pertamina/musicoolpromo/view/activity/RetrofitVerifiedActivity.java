@@ -64,14 +64,25 @@ public class RetrofitVerifiedActivity extends BaseActivity {
             Log.d("mantap anying", "generateView: ");
             buttonFill.setVisibility(View.GONE);
             statusResult.setVisibility(View.VISIBLE);
-            if(getIntent().getStringExtra(INTENT_EXTRA_SCANNED_BY).equals(sharePreferenceManager.getAccountID())){
-                statusResult.setText("Poin sudah anda claim");
+            SharePreferenceManager sharePreferenceManager = new SharePreferenceManager(this);
+            if(sharePreferenceManager.getRetrofitType().equals("BREEZON")){
+                if(getIntent().getStringExtra(INTENT_EXTRA_SCANNED_BY).equals(sharePreferenceManager.getAccountID())){
+                    statusResult.setText("");
+                }else {
+                    statusResult.setText("Didaftarkan oleh "+getIntent().getStringExtra(INTENT_EXTRA_SCANNED_BY));
+                }
             }else {
-                statusResult.setText("Didaftarkan oleh "+getIntent().getStringExtra(INTENT_EXTRA_SCANNED_BY));
+                if(getIntent().getStringExtra(INTENT_EXTRA_SCANNED_BY).equals(sharePreferenceManager.getAccountID())){
+                    statusResult.setText("Poin sudah anda claim");
+                }else {
+                    statusResult.setText("Didaftarkan oleh "+getIntent().getStringExtra(INTENT_EXTRA_SCANNED_BY));
+                }
             }
             titleResult.setText("TERDAFTAR");
             detailResult.setText("Data retrofit customer telah terdaftar");
             idResult.setText("Retrofit "+getIntent().getStringExtra(INTENT_EXTRA_ID));
+        } else {
+            detailResult.setText("Silahkan lengkapi data customer");
         }
 
     }

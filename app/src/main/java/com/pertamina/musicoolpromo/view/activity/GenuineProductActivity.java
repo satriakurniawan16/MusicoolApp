@@ -61,15 +61,23 @@ public class GenuineProductActivity extends BaseActivity {
             detailProduct.setText(getIntent().getStringExtra(INTENT_EXTRA_NAME) + "\n ("+getIntent().getStringExtra(INTENT_EXTRA_ID)+" )");
         } else {
             detailProduct.setText(getIntent().getStringExtra(INTENT_EXTRA_NAME) + "\n ("+getIntent().getStringExtra(INTENT_EXTRA_ID)+" )");
-            if (getIntent().getStringExtra(INTENT_EXTRA_AMOUNT) != null) {
-                pointProduct.setText(getIntent().getStringExtra(INTENT_EXTRA_AMOUNT));
-                titleProduct.setText("Selamat anda telah mendapatkan poin");
+
+            if (getIntent().getStringExtra(INTENT_EXTRA_AMOUNT) != null ) {
+                if(getIntent().getStringExtra(INTENT_EXTRA_AMOUNT).equals("breezon")){
+                    pointProduct.setText("");
+                    titleProduct.setText("Kode tabung berhasil di scan ");
+                }else {
+                    pointProduct.setText(getIntent().getStringExtra(INTENT_EXTRA_AMOUNT));
+                    titleProduct.setText("Selamat anda telah mendapatkan poin");
+                }
             } else {
                 pointProduct.setVisibility(View.GONE);
                 String scannedBy = getIntent().getStringExtra(INTENT_EXTRA_SCANNED_BY);
                 String last_position = getIntent().getStringExtra(INTENT_EXTRA_LASTPOSITION);
                 String account = "";
                 if (scannedBy.equals("-")) {
+                    titleProduct.setText("Kode tabung belum di aktivasi");
+                }else if (scannedBy.equals("")){
                     titleProduct.setText("Kode tabung belum di aktivasi");
                 } else {
                     if (last_position.equals("DPT")) {
@@ -82,9 +90,19 @@ public class GenuineProductActivity extends BaseActivity {
                         account = "Teknisi";
                     }
                     if (scannedBy.equals(sharePreferenceManager.getAccountID())) {
-                        titleProduct.setText("Poin sudah anda claim");
+
+                        if(getIntent().getStringExtra("tipekode") != null){
+                            titleProduct.setText("Tabung ini telah anda scan");
+                        }else {
+                            titleProduct.setText("Poin sudah anda claim");
+                        }
                     } else {
-                        titleProduct.setText("Tabung ini tidak bisa di scan. Posisi scan terakir oleh  " + account + " dengan id \n " + scannedBy);
+                        if(getIntent().getStringExtra("tipekode") != null){
+                            titleProduct.setText("Tabung ini telah di scan. Posisi scan terakir oleh  " + account + " dengan id \n " + scannedBy);
+                        }else {
+                            titleProduct.setText("Tabung ini tidak bisa di scan. Posisi scan terakir oleh  " + account + " dengan id \n " + scannedBy);
+
+                        }
                     }
                 }
             }

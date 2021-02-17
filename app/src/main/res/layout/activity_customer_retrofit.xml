@@ -71,10 +71,10 @@
                 android:id="@+id/phone_customer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="phone"
                 android:imeOptions="actionNext"
+                android:hint="No. Handphone"
+                android:inputType="phone"
                 android:singleLine="true"
-                android:hint="No. HandPhone"
                 android:textSize="16dp" />
 
 
@@ -165,7 +165,7 @@
                 android:layout_marginTop="20dp"
                 android:textColor="@color/colorWhite"
                 android:text="Simpan"
-                android:background="@color/colorPrimary"/>
+                android:background="@drawable/genuine_border"/>
 
         </LinearLayout>
 

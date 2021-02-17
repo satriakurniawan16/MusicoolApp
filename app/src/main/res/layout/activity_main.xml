@@ -63,7 +63,7 @@
         android:layout_height="50dp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:background="@color/colorPrimary"
+        android:background="@drawable/genuine_border"
         android:text="LOGIN"
         android:textColor="@color/colorWhite"
         android:textStyle="bold"

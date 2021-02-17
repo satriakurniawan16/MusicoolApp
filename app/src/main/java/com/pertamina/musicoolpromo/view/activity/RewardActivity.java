@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.pertamina.musicoolpromo.R;
 import com.pertamina.musicoolpromo.view.base.BaseActivity;
+import com.pertamina.musicoolpromo.view.utilities.SharePreferenceManager;
 
 import static com.pertamina.musicoolpromo.view.utilities.GlobalString.Preferences.INTENT_EXTRA_AMOUNT;
 
@@ -33,6 +34,8 @@ public class RewardActivity extends BaseActivity {
 
     @Override
     public void generateView() {
+        SharePreferenceManager sharePreferenceManager = new SharePreferenceManager(this);
+
         textPoint.setText(getIntent().getStringExtra(INTENT_EXTRA_AMOUNT));
     }
 

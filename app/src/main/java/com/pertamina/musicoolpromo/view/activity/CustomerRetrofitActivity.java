@@ -51,7 +51,7 @@ import retrofit2.Response;
 import static com.pertamina.musicoolpromo.view.utilities.GlobalString.Preferences.INTENT_EXTRA_AMOUNT;
 import static com.pertamina.musicoolpromo.view.utilities.GlobalString.Preferences.INTENT_EXTRA_ID;
 
-public class CustomerRetrofitActivity extends BaseActivity  {
+public class CustomerRetrofitActivity extends BaseActivity {
 
     private Toolbar toolbar;
     private Button buttonFill;
@@ -107,6 +107,8 @@ public class CustomerRetrofitActivity extends BaseActivity  {
 
     Bitmap bitmapImage;
 
+    SharePreferenceManager sharePreferenceManager;
+
     private String[] brand = {
             "Samsung",
             "LG",
@@ -141,6 +143,8 @@ public class CustomerRetrofitActivity extends BaseActivity  {
     public void setUpView() {
 
         pDialog = new ProgressDialog(CustomerRetrofitActivity.this);
+
+        sharePreferenceManager = new SharePreferenceManager(this);
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -257,73 +261,90 @@ public class CustomerRetrofitActivity extends BaseActivity  {
                 emailString = emailText.getText().toString();
                 phoneString = phoneNumber.getText().toString();
                 address = addressText.getText().toString();
-                zipcode =  zipText.getText().toString();
+                zipcode = zipText.getText().toString();
                 brandString = brandSpinner.getText().toString();
                 modelString = modelText.getText().toString();
                 capacityString = capacitySpinner.getText().toString();
                 serialString = serialText.getText().toString();
 
-                if(TextUtils.isEmpty(nameString)){
-                    nameText.setError("Nama customer tidak boleh ");
+                if (TextUtils.isEmpty(nameString)) {
+                    nameText.setError("Nama customer tidak boleh kosong");
                     nameText.findFocus();
                     return;
+                }else {
+                    nameText.setError(null);
                 }
-                if(TextUtils.isEmpty(emailString)){
-                    emailText.setError("Email customer tidak boleh ");
+                if (TextUtils.isEmpty(emailString)) {
+                    emailText.setError("Email customer tidak boleh kosong");
                     emailText.findFocus();
                     return;
+                }else {
+                    emailText.setError(null);
                 }
-                if(!isEmailValid(emailString)){
-                        emailText.setError("Email tidak valid");
-                        emailText.findFocus();
+                if (!isEmailValid(emailString)) {
+                    emailText.setError("Email tidak valid");
+                    emailText.findFocus();
                     return;
+                }else {
+                    emailText.setError(null);
                 }
-                if(TextUtils.isEmpty(phoneString)){
-                    phoneNumber.setError("No.Handphone customer tidak boleh ");
+                if (TextUtils.isEmpty(phoneString)) {
+                    phoneNumber.setError("No.Handphone customer tidak boleh kosong");
                     phoneNumber.findFocus();
                     return;
+                }else {
+                    phoneNumber.setError(null);
                 }
-                if(TextUtils.isEmpty(provinceIDString)){
+                if (TextUtils.isEmpty(provinceIDString)) {
                     Toast.makeText(CustomerRetrofitActivity.this, "Pilih Provinsi", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if(TextUtils.isEmpty(cityIDString)){
+                if (TextUtils.isEmpty(cityIDString)) {
                     Toast.makeText(CustomerRetrofitActivity.this, "Pilih Kota/Kabupaten", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if(TextUtils.isEmpty(districtIDString)){
+                if (TextUtils.isEmpty(districtIDString)) {
                     Toast.makeText(CustomerRetrofitActivity.this, "Pilih Kecamatan", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if(TextUtils.isEmpty(address)){
+                if (TextUtils.isEmpty(address)) {
                     addressText.setError("Alamat customer tidak boleh kosong ");
                     addressText.findFocus();
                     return;
+                }else {
+                    addressText.setError(null);
                 }
-                if(TextUtils.isEmpty(zipcode)){
+                if (TextUtils.isEmpty(zipcode)) {
                     zipText.setError("Kode pos customer tidak boleh kosong");
                     zipText.findFocus();
                     return;
+                }else {
+                    zipText.setError(null);
                 }
-                if(TextUtils.isEmpty(brandString)){
+                if (TextUtils.isEmpty(brandString)) {
                     Toast.makeText(CustomerRetrofitActivity.this, "Pilih Merek AC", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if(TextUtils.isEmpty(serialString)){
-                    zipText.setError("no serial ac tidak boleh kosong");
-                    zipText.findFocus();
+                if (TextUtils.isEmpty(serialString)) {
+                    serialText.setError("no serial ac tidak boleh kosong");
+                    serialText.findFocus();
                     return;
+                }else {
+                    serialText.setError(null);
                 }
-                if(TextUtils.isEmpty(capacityString)){
+                if (TextUtils.isEmpty(capacityString)) {
                     Toast.makeText(CustomerRetrofitActivity.this, "Pilih Kapasitas AC", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if(filepath == null ){
+                if (filepath == null) {
                     Toast.makeText(CustomerRetrofitActivity.this, "Gambar tidak boleh kosong", Toast.LENGTH_SHORT).show();
                     return;
-                }
-                else {
-                    setRetrofit();
+                } else {
+                    if(sharePreferenceManager.getRetrofitType().equals("MUSICOOL")){
+                        setRetrofit();
+                    }else {
+                        setRetrofitBreezon();
+                    }
                 }
             }
         });
@@ -493,7 +514,7 @@ public class CustomerRetrofitActivity extends BaseActivity  {
         setSpinnerAdapter();
     }
 
-    private void setRetrofit(){
+    private void setRetrofit() {
         displayLoader("Menyimpan data retrofit");
         SharePreferenceManager sharePreferenceManager = new SharePreferenceManager(CustomerRetrofitActivity.this);
         RetrofitCust retrofit = new RetrofitCust();
@@ -513,17 +534,17 @@ public class CustomerRetrofitActivity extends BaseActivity  {
         try {
 
             Call<JsonObject> call = service
-                    .custRetrofit("application/json","Bearer "+sharePreferenceManager.getToken(), retrofit);
+                    .custRetrofit("application/json", "Bearer " + sharePreferenceManager.getToken(), retrofit);
             call.enqueue(new Callback<JsonObject>() {
                 @Override
                 public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                     pDialog.dismiss();
-                    if(response.code() == 200){
+                    if (response.code() == 200) {
                         Log.d("lolfinal", "SuccessoTOLOL" + call.toString() + response.body());
                         JsonObject jsonObject = response.body();
                         setUnitRetrofit(jsonObject.get("id").getAsString());
-                    }else {
-                        Toast.makeText(CustomerRetrofitActivity.this, "Terjadi kesalahan :"+ response.message(), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(CustomerRetrofitActivity.this, "Terjadi kesalahan :" + response.message(), Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -539,7 +560,7 @@ public class CustomerRetrofitActivity extends BaseActivity  {
         }
     }
 
-    private void setUnitRetrofit(String id){
+    private void setUnitRetrofit(String id) {
         displayLoader("Menyimpan data retrofit");
         SharePreferenceManager sharePreferenceManager = new SharePreferenceManager(CustomerRetrofitActivity.this);
         RetrofitUnit unit = new RetrofitUnit();
@@ -556,23 +577,110 @@ public class CustomerRetrofitActivity extends BaseActivity  {
         try {
 
             Call<JsonObject> call = service
-                    .setUnitRetrofit("application/json","Bearer "+sharePreferenceManager.getToken(),"1","5", unit);
+                    .setUnitRetrofit("application/json", "Bearer " + sharePreferenceManager.getToken(), "1", "5", unit);
             call.enqueue(new Callback<JsonObject>() {
                 @Override
                 public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                    Log.d("lolfinal", "SuccessoTOLOL" + call.toString() + response.body() + response.code() +response.message());
-                      pDialog.dismiss();
-                      if(response.code() == 200){
-                          JsonObject jsonObject = response.body();
-                          JsonObject pointJson = jsonObject.get("point").getAsJsonObject();
-                          String point = pointJson.get("amount").getAsString();
-                          Intent intent = new Intent(CustomerRetrofitActivity.this,RewardActivity.class);
-                          intent.putExtra(INTENT_EXTRA_AMOUNT,point);
-                          startActivity(intent);
-                          finish();
-                      }else {
-                          Toast.makeText(CustomerRetrofitActivity.this, "Terjadi kesalahan : "+response.message(), Toast.LENGTH_SHORT).show();
-                      }
+                    Log.d("lolfinal", "SuccessoTOLOL" + call.toString() + response.body() + response.code() + response.message());
+                    pDialog.dismiss();
+                    if (response.code() == 200) {
+                        JsonObject jsonObject = response.body();
+                        JsonObject pointJson = jsonObject.get("point").getAsJsonObject();
+                        String point = pointJson.get("amount").getAsString();
+                        Intent intent = new Intent(CustomerRetrofitActivity.this, RewardActivity.class);
+                        intent.putExtra(INTENT_EXTRA_AMOUNT, point);
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        Toast.makeText(CustomerRetrofitActivity.this, "Terjadi kesalahan : " + response.message(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<JsonObject> call, Throwable t) {
+                    Log.d("lolfinalTOLOL", "error: " + t.toString());
+                    pDialog.dismiss();
+                }
+            });
+        } catch (Exception e) {
+            Log.d("lolfinalTOLOL", "uploadError: " + e.toString());
+            pDialog.dismiss();
+        }
+    }
+
+
+    private void setRetrofitBreezon() {
+        displayLoader("Menyimpan data retrofit");
+        SharePreferenceManager sharePreferenceManager = new SharePreferenceManager(CustomerRetrofitActivity.this);
+        RetrofitCust retrofit = new RetrofitCust();
+        retrofit.setEmail(emailString);
+        retrofit.setName(nameString);
+        retrofit.setPhone(phoneString);
+        retrofit.setAddress(address);
+        retrofit.setProvince_id(provinceIDString);
+        retrofit.setCity_id(cityIDString);
+        retrofit.setDistrict_id(districtIDString);
+        retrofit.setZipcode(zipcode);
+        retrofit.setIdcard_image(uuid);
+
+//        Log.d("lolfinal", "renewalToken: "+ login);
+
+        ApiInterface service = ApiClient.getData().create(ApiInterface.class);
+        try {
+
+            Call<JsonObject> call = service
+                    .custRetrofitBreezon("application/json", "Bearer " + sharePreferenceManager.getToken(), retrofit);
+            call.enqueue(new Callback<JsonObject>() {
+                @Override
+                public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                    pDialog.dismiss();
+                    JsonObject jsonObject = response.body();
+                    setUnitRetrofitBreezon(jsonObject.get("id").getAsString());
+                }
+
+                @Override
+                public void onFailure(Call<JsonObject> call, Throwable t) {
+                    Log.d("lolfinalTOLOL", "error: " + t.toString());
+                    pDialog.dismiss();
+                }
+            });
+        } catch (Exception e) {
+            Log.d("lolfinalTOLOL", "uploadError: " + e.toString());
+            pDialog.dismiss();
+        }
+    }
+
+    private void setUnitRetrofitBreezon(String id) {
+        displayLoader("Menyimpan data retrofit");
+        SharePreferenceManager sharePreferenceManager = new SharePreferenceManager(CustomerRetrofitActivity.this);
+        RetrofitUnit unit = new RetrofitUnit();
+
+        unit.setId(getIntent().getStringExtra(INTENT_EXTRA_ID));
+        unit.setBrand(brandString);
+        unit.setModel(modelString);
+        unit.setCapacity(capacityString);
+        unit.setCustomer_id(id);
+        unit.setSerial_number(serialString);
+
+        Log.d("lolfinal", "setUnitRetrofit: " + unit);
+        ApiInterface service = ApiClient.getData().create(ApiInterface.class);
+        try {
+
+            Call<JsonObject> call = service
+                    .setUnitRetrofitBreezon("application/json", "Bearer " + sharePreferenceManager.getToken(), "1", "5", unit);
+            call.enqueue(new Callback<JsonObject>() {
+                @Override
+                public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                    Log.d("lolfinal", "SuccessoTOLOL" + call.toString() + response.body() + response.code() + response.message());
+                    pDialog.dismiss();
+                    if (response.code() == 200) {
+                        Toast.makeText(CustomerRetrofitActivity.this, "Berhasil submit retrofit", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(CustomerRetrofitActivity.this,MasterActivity.class);
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        Toast.makeText(CustomerRetrofitActivity.this, "Terjadi kesalahan : " + response.message(), Toast.LENGTH_SHORT).show();
+                    }
                 }
 
                 @Override
@@ -601,9 +709,9 @@ public class CustomerRetrofitActivity extends BaseActivity  {
 
     private void getFile(Bitmap imageBitmap) {
         file = createTempFile(imageBitmap);
-        if(file!= null){
+        if (file != null) {
             uploadInformation();
-        }else {
+        } else {
             getFile(imageBitmap);
         }
         Log.d("response final", "getFile: " + file + reqFile);

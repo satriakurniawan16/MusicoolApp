@@ -55,7 +55,7 @@ public class GenuineDepotActivity extends BaseActivity {
     @SuppressLint("SetTextI18n")
     @Override
     public void generateView() {
-        textTitle.setText(getIntent().getStringExtra("name"));
+        textTitle.setText(getIntent().getStringExtra("name")+" ( "+getIntent().getStringExtra("id")+" ) ");
         String scannedBy = getIntent().getStringExtra("scanned_by");
         String last_position = getIntent().getStringExtra("last_position");
         String account = "";

@@ -119,6 +119,7 @@ public class ProfileFragment extends BaseFragment {
 
     private TextView saveProfile;
     private TextView editProfile;
+    private TextView textViewKTP;
 
     private ArrayAdapter provinceAdapter;
     private ArrayAdapter cityAdapter;
@@ -183,6 +184,7 @@ public class ProfileFragment extends BaseFragment {
         logoutButton = view.findViewById(R.id.logout_button);
         changePassword = view.findViewById(R.id.change_password);
         seePoint = view.findViewById(R.id.see_point);
+        textViewKTP = view.findViewById(R.id.textviewktp);
         nameProfile = view.findViewById(R.id.nameProfile);
         numberProfile = view.findViewById(R.id.phoneProfile);
         addressProfile = view.findViewById(R.id.addressProfile);
@@ -370,6 +372,8 @@ public class ProfileFragment extends BaseFragment {
             currentUser = mAuth.getCurrentUser();
             getUserCust();
         } else {
+            ktpProfile.setVisibility(View.GONE);
+            textViewKTP.setVisibility(View.GONE);
             editProfile.setVisibility(View.GONE);
             getUser(sharePreferenceManager.getToken());
         }

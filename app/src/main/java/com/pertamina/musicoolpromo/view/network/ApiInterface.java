@@ -102,8 +102,20 @@ public interface ApiInterface {
             @Header("authorization") String token,
             @Path("code") String code);
 
+    @GET("breezon/retrofit/{code}")
+    Call<JsonObject> checkRetrofitBreezon(
+            @Header("authorization") String token,
+            @Path("code") String code);
+
     @POST("retrofit/customer/")
     Call<JsonObject> custRetrofit(
+            @Header("Content-Type") String header,
+            @Header("authorization") String token,
+            @Body RetrofitCust retrofit
+    );
+
+    @POST("breezon/retrofit-customer/")
+    Call<JsonObject> custRetrofitBreezon(
             @Header("Content-Type") String header,
             @Header("authorization") String token,
             @Body RetrofitCust retrofit
@@ -118,8 +130,24 @@ public interface ApiInterface {
             @Body RetrofitUnit retrofit
     );
 
+    @POST("breezon/retrofit/submit")
+    Call<JsonObject> setUnitRetrofitBreezon(
+            @Header("Content-Type") String header,
+            @Header("Authorization") String token,
+            @Query("page") String page,
+            @Query("page_size") String pageSize,
+            @Body RetrofitUnit retrofit
+    );
+
     @GET("product/item/info/{code}")
     Call<JsonArray> getProduct(
+            @Header("authorization") String token,
+            @Header("content-type") String content,
+            @Path("code") String code
+    );
+
+    @GET("breezon/item/info/{code}")
+    Call<JsonArray> getProductBreezon(
             @Header("authorization") String token,
             @Header("content-type") String content,
             @Path("code") String code
@@ -160,6 +188,14 @@ public interface ApiInterface {
 
     @PUT("product/item/{code}/scan")
     Call<JsonObject> setProduct (
+            @Header("Authorization") String token,
+            @Header("Content-Type") String content,
+            @Path("code") String code
+    );
+
+
+    @PUT("breezon/item/{code}/scan")
+    Call<JsonObject> setProductBreezon (
             @Header("Authorization") String token,
             @Header("Content-Type") String content,
             @Path("code") String code

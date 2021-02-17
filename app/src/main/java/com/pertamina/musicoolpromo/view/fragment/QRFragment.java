@@ -25,6 +25,7 @@ import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
 import com.budiyev.android.codescanner.DecodeCallback;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.zxing.Result;
@@ -164,10 +165,9 @@ public class QRFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
 
-                if(sharePreferenceManager.getAccountType().equals(ACCOUNT_TYPE_TECHNICIAN) || sharePreferenceManager.getAccountType().equals(ACCOUNT_TYPE_OUTLET) ){
+                if (sharePreferenceManager.getAccountType().equals(ACCOUNT_TYPE_TECHNICIAN) || sharePreferenceManager.getAccountType().equals(ACCOUNT_TYPE_OUTLET)) {
                     showchooseDialog();
-                }
-                else {
+                } else {
                     showDialog();
                 }
             }
@@ -237,7 +237,7 @@ public class QRFragment extends BaseFragment {
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                if(response.code() == 200){
+                if (response.code() == 200) {
                     JsonObject jsonObject = response.body();
                     JsonArray jsonArray = jsonObject.get("data").getAsJsonArray();
                     pDialog.dismiss();
@@ -277,29 +277,40 @@ public class QRFragment extends BaseFragment {
                 JsonObject jsonObject = response.body();
                 pDialog.dismiss();
                 Log.d("tolil", "onResponse: " + response.code() + response.message() + response.body());
-               if (response.code() == 200) {
+                if (response.code() == 200) {
                     String codeType = jsonObject.get("type").getAsString();
                     if (codeType.equals("retrofit")) {
-                        if (sharePreferenceManager.getAccountType().equals(ACCOUNT_TYPE_TECHNICIAN) ) {
+                        if (sharePreferenceManager.getAccountType().equals(ACCOUNT_TYPE_TECHNICIAN) || sharePreferenceManager.getAccountType().equals(ACCOUNT_TYPE_OUTLET)) {
                             getRetrofit(code);
+                            sharePreferenceManager.setRetrofitType("MUSICOOL");
                         } else {
                             Toast.makeText(getContext(), "Fitur ini hanya bisa digunakan oleh teknisi dan outlet", Toast.LENGTH_SHORT).show();
                             mCodeScanner.startPreview();
                         }
-                    } else {
+                    } else if (codeType.equals("product")) {
                         setProduct(code);
+                    } else if (codeType.equals("breezon_product")) {
+                        setProductBreezon(code);
+                    } else if (codeType.equals("breezon_retrofit")) {
+                        if (sharePreferenceManager.getAccountType().equals(ACCOUNT_TYPE_TECHNICIAN) || sharePreferenceManager.getAccountType().equals(ACCOUNT_TYPE_OUTLET)) {
+                            getRetrofitBreezon(code);
+                            sharePreferenceManager.setRetrofitType("BREEZON");
+                        } else {
+                            Toast.makeText(getContext(), "Fitur ini hanya bisa digunakan oleh teknisi dan outlet", Toast.LENGTH_SHORT).show();
+                            mCodeScanner.startPreview();
+                        }
                     }
-                } else if(response.code() == 401){
-                   Toast.makeText(getContext(), "Sesi anda telah habis silahkan login ulang", Toast.LENGTH_SHORT).show();
-                   startActivity(new Intent(getContext(), MainActivity.class));
-                   sharePreferenceManager.removeToken();
-                   Objects.requireNonNull(getActivity()).finish();
-                }else  {
+                } else if (response.code() == 401) {
+                    Toast.makeText(getContext(), "Sesi anda telah habis silahkan login ulang", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(getContext(), MainActivity.class));
+                    sharePreferenceManager.removeToken();
+                    Objects.requireNonNull(getActivity()).finish();
+                } else {
                     Intent intent = new Intent(getContext(), FakeProductActivity.class);
                     startActivity(intent);
                 }
 
-                    Log.d("xianying", "onResponse: " + jsonObject);
+                Log.d("xianying", "onResponse: " + jsonObject);
             }
 
             @Override
@@ -308,6 +319,7 @@ public class QRFragment extends BaseFragment {
             }
         });
     }
+
 
     private void getRetrofit(String code) {
         SharePreferenceManager sharePreferenceManager = new SharePreferenceManager(getContext());
@@ -330,12 +342,51 @@ public class QRFragment extends BaseFragment {
                         intent.putExtra(INTENT_EXTRA_ID, codeResult);
                         startActivity(intent);
                     }
-                }else if(response.code() == 401){
+                } else if (response.code() == 401) {
                     Toast.makeText(getContext(), "Sesi anda telah habis silahkan login ulang", Toast.LENGTH_SHORT).show();
                     sharePreferenceManager.removeToken();
                     startActivity(new Intent(getContext(), MainActivity.class));
                     Objects.requireNonNull(getActivity()).finish();
-                }else {
+                } else {
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.d("lol gagal", "onResponse: " + t);
+                pDialog.dismiss();
+            }
+        });
+    }
+
+    private void getRetrofitBreezon(String code) {
+        SharePreferenceManager sharePreferenceManager = new SharePreferenceManager(getContext());
+        ApiInterface service = ApiClient.getData().create(ApiInterface.class);
+        Call<JsonObject> call = service.checkRetrofitBreezon("Bearer " + sharePreferenceManager.getToken(), code);
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                if (response.code() == 200) {
+                    final JsonObject jsonObject = response.body();
+                    String codeResult = jsonObject.get("id").getAsString();
+                    pDialog.dismiss();
+                    if (code.equals(codeResult)) {
+                        Intent intent = new Intent(getContext(), RetrofitVerifiedActivity.class);
+                        if (!jsonObject.get("submited_by").isJsonNull()) {
+                            String submitResult = jsonObject.get("submited_by").getAsString();
+                            intent.putExtra(INTENT_EXTRA_SCANNED_BY, submitResult);
+                            intent.putExtra(INTENT_EXTRA_ID, codeResult);
+                        }
+                        intent.putExtra(INTENT_EXTRA_ID, codeResult);
+                        startActivity(intent);
+                    }
+                } else if (response.code() == 401) {
+                    Toast.makeText(getContext(), "Sesi anda telah habis silahkan login ulang", Toast.LENGTH_SHORT).show();
+                    sharePreferenceManager.removeToken();
+                    startActivity(new Intent(getContext(), MainActivity.class));
+                    Objects.requireNonNull(getActivity()).finish();
+                } else {
 
                 }
             }
@@ -349,7 +400,7 @@ public class QRFragment extends BaseFragment {
     }
 
 
-    private void getProduct(String code,String scanBy,String accType) {
+    private void getProduct(String code, String scanBy, String accType) {
         SharePreferenceManager sharePreferenceManager = new SharePreferenceManager(getContext());
         ApiInterface service = ApiClient.getData().create(ApiInterface.class);
         Call<JsonArray> call = service.getProduct("Bearer " + sharePreferenceManager.getToken(), "application/json", code);
@@ -359,21 +410,21 @@ public class QRFragment extends BaseFragment {
                 if (response.code() == 200) {
                     final JsonArray jsonArray = response.body();
                     final JsonObject jsonObject = jsonArray.get(0).getAsJsonObject();
+                    Log.d("breezon", "onResponse: " + response.code());
                     String codeResult = jsonObject.get("id").getAsString();
                     JsonObject productResult = jsonObject.get("product").getAsJsonObject();
                     String name = productResult.get("name").getAsString();
                     String lastPosition = jsonObject.get("last_position").getAsString();
-
                     pDialog.dismiss();
                     if (code.equals(codeResult)) {
-                            Intent intent = new Intent(getContext(), GenuineProductActivity.class);
-                            intent.putExtra(INTENT_EXTRA_ID, code);
-                            intent.putExtra(INTENT_EXTRA_NAME, name);
-                            intent.putExtra(INTENT_EXTRA_SCANNED_BY, scanBy);
-                            intent.putExtra(INTENT_EXTRA_LASTPOSITION, accType);
-                            startActivity(intent);
+                        Intent intent = new Intent(getContext(), GenuineProductActivity.class);
+                        intent.putExtra(INTENT_EXTRA_ID, code);
+                        intent.putExtra(INTENT_EXTRA_NAME, name);
+                        intent.putExtra(INTENT_EXTRA_SCANNED_BY, scanBy);
+                        intent.putExtra(INTENT_EXTRA_LASTPOSITION, accType);
+                        startActivity(intent);
                     }
-                }else if(response.code() == 401){
+                } else if (response.code() == 401) {
                     Toast.makeText(getContext(), "Sesi anda telah habis silahkan login ulang", Toast.LENGTH_SHORT).show();
                     sharePreferenceManager.removeToken();
                     startActivity(new Intent(getContext(), MainActivity.class));
@@ -389,6 +440,61 @@ public class QRFragment extends BaseFragment {
             }
         });
     }
+
+
+    private void getProductBreezon(String code) {
+        SharePreferenceManager sharePreferenceManager = new SharePreferenceManager(getContext());
+        ApiInterface service = ApiClient.getData().create(ApiInterface.class);
+        Call<JsonArray> call = service.getProductBreezon("Bearer " + sharePreferenceManager.getToken(), "application/json", code);
+        call.enqueue(new Callback<JsonArray>() {
+            @Override
+            public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
+                if (response.code() == 200) {
+                    final JsonArray jsonArray = response.body();
+                    final JsonObject jsonObject = jsonArray.get(0).getAsJsonObject();
+                    String codeResult = jsonObject.get("id").getAsString();
+                    JsonObject productResult = jsonObject.get("breezon_product").getAsJsonObject();
+                    String lastPosition = "-";
+                    String lastScanned = "-";
+                    JsonElement el = jsonObject.get("last_position");
+                    JsonElement el2 = jsonObject.get("last_scanned_by");
+                    String name = productResult.get("name").getAsString();
+                    if(el != null || !el.isJsonNull()){
+                        lastPosition = jsonObject.get("last_position").getAsString();
+                    }
+                    if(!el2.isJsonNull()){
+                        lastScanned = jsonObject.get("last_scanned_by").getAsString();
+                    }
+
+                    Log.d("breezon", "onResponse: " + productResult);
+
+                    pDialog.dismiss();
+                    if (code.equals(codeResult)) {
+                        Intent intent = new Intent(getContext(), GenuineProductActivity.class);
+                        intent.putExtra(INTENT_EXTRA_ID, code);
+                        intent.putExtra(INTENT_EXTRA_NAME, name);
+                        intent.putExtra("scanned_by", lastScanned);
+                        intent.putExtra("last_position", lastPosition);
+                        intent.putExtra("tipekode", "breezon");
+                        startActivity(intent);
+                    }
+                } else if (response.code() == 401) {
+                    Toast.makeText(getContext(), "Sesi anda telah habis silahkan login ulang", Toast.LENGTH_SHORT).show();
+                    sharePreferenceManager.removeToken();
+                    startActivity(new Intent(getContext(), MainActivity.class));
+                    Objects.requireNonNull(getActivity()).finish();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<JsonArray> call, Throwable t) {
+                Log.d("lol gagal", "onResponse: " + t);
+                pDialog.dismiss();
+            }
+        });
+    }
+
 
     private void showDialog() {
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(getContext());
@@ -501,9 +607,9 @@ public class QRFragment extends BaseFragment {
                             JsonObject jsonScan = jsonObject.get("scanned_by").getAsJsonObject();
                             String scanby = jsonScan.get("account_id").getAsString();
                             String accType = jsonScan.get("account_type").getAsString();
-                            getProduct(code,scanby,accType);
-                        }else {
-                            getProduct(code,"-","-");
+                            getProduct(code, scanby, accType);
+                        } else {
+                            getProduct(code, "-", "-");
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -518,7 +624,7 @@ public class QRFragment extends BaseFragment {
                     intent.putExtra(INTENT_EXTRA_NAME, name);
                     intent.putExtra(INTENT_EXTRA_AMOUNT, amount);
                     startActivity(intent);
-                } else if (response.code() == 401){
+                } else if (response.code() == 401) {
                     Toast.makeText(getContext(), "Sesi anda telah habis silahkan login ulang", Toast.LENGTH_SHORT).show();
                     sharePreferenceManager.removeToken();
                     startActivity(new Intent(getContext(), MainActivity.class));
@@ -530,6 +636,55 @@ public class QRFragment extends BaseFragment {
             public void onFailure(Call<JsonObject> call, Throwable t) {
                 Log.d("lol gagal", "onResponse: " + t);
                 pDialog.dismiss();
+            }
+        });
+    }
+
+    private void setProductBreezon(String code) {
+        SharePreferenceManager sharePreferenceManager = new SharePreferenceManager(getContext());
+        ApiInterface service = ApiClient.getData().create(ApiInterface.class);
+        Call<JsonObject> call = service.setProductBreezon("Bearer " + sharePreferenceManager.getToken(), "application/json", code);
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                pDialog.dismiss();
+                Log.d("ikantongkol", "onResponse: " + response.code() + response.message() + response.body());
+                if (response.code() == 400) {
+                    try {
+                        assert response.errorBody() != null;
+                        String jsonString = response.errorBody().string();
+                        JsonObject jsonObject = new JsonParser().parse(jsonString).getAsJsonObject();
+                        if (jsonObject.has("scanned_by") == true) {
+                            JsonObject jsonScan = jsonObject.get("scanned_by").getAsJsonObject();
+                            String scanby = jsonScan.get("account_id").getAsString();
+                            String accType = jsonScan.get("account_type").getAsString();
+                            getProductBreezon(code);
+                        }else {
+                            getProductBreezon(code);
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } else if (response.code() == 200) {
+                    JsonObject jsonObject = response.body();
+                    JsonObject point = jsonObject.get("create_scan_item_history").getAsJsonObject();
+                    String name = point.get("product_name").getAsString();
+                    Intent intent = new Intent(getContext(), GenuineProductActivity.class);
+                    intent.putExtra(INTENT_EXTRA_ID, code);
+                    intent.putExtra(INTENT_EXTRA_NAME, name);
+                    intent.putExtra(INTENT_EXTRA_AMOUNT, "breezon");
+                    startActivity(intent);
+                } else if (response.code() == 401) {
+                    Toast.makeText(getContext(), "Sesi anda telah habis silahkan login ulang", Toast.LENGTH_SHORT).show();
+                    sharePreferenceManager.removeToken();
+                    startActivity(new Intent(getContext(), MainActivity.class));
+                    Objects.requireNonNull(getActivity()).finish();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+
             }
         });
     }
